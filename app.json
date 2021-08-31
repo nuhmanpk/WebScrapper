@@ -1,7 +1,7 @@
 {
-    "name": "SpeedTestBot",
+    "name": "WebScrapperBot",
     "description": "A Modular telegram bot.",
-    "repository": "https://github.com/BugHunterCodeLabs",
+    "repository": "https://github.com/BugHunter0",
     "keywords": [
        
         "telegram bot",
