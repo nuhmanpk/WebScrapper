@@ -1,4 +1,5 @@
 pyrogram
-python-decouple
 tgcrypto
-speedtest-cli
+requests
+beautifulsoup4
+html5lib
