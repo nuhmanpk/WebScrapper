@@ -1,0 +1,4 @@
+pyrogram
+python-decouple
+tgcrypto
+speedtest-cli
