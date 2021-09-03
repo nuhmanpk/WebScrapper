@@ -22,19 +22,19 @@ bughunter0 = Client(
 
 @bughunter0.on_message(filters.command(["start"]))
 async def start(bot, message):
-   await message.reply_text("Join @BugHunterBots")
+   await message.reply_text("Join @BugHunterBots") # Edit Your Start string here
 
 
 @bughunter0.on_message((filters.regex("https") | filters.regex("http") | filters.regex("www")) & (filters.forwarded | filters.reply | filters.private))
 async def scrapping(bot,message):
- try:
+ try:  # Extracting Raw Data From Webpage ( Unstructured format)
     txt = await message.reply_text("Validating Link")
     url=str(message.text)
     request = requests.get(url)
     await txt.edit(text=f"Getting Raw Data from {url}",disable_web_page_preview=True)
     with open(f'RawData-{message.chat.username}.txt', 'a+') as text_path:  
          file_write = open(f'RawData-{message.chat.username}.txt','a+')
-         file_write.write(f"{request.content}")
+         file_write.write(f"{request.content}") # Writing Raw Content to Txt file
          await message.reply_document(f"RawData-{message.chat.username}.txt",caption="©@BugHunterBots")
          os.remove(f"RawData-{message.chat.username}.txt")
     await txt.delete()
@@ -45,11 +45,11 @@ async def scrapping(bot,message):
           return
  try:
     txt = await message.reply_text(text=f"Getting HTML code from {url}",disable_web_page_preview=True)
-    soup = BeautifulSoup(request.content, 'html5lib') 
+    soup = BeautifulSoup(request.content, 'html5lib') # Extracting Html code in Tree Format
     with open(f'HtmlData-{message.chat.username}.txt', 'a+') as text_path:
           file_write = open(f'HtmlData-{message.chat.username}.txt','a+')
-          soup.data=soup.prettify()
-          file_write.write(f"{soup.data}")
+          soup.data=soup.prettify()  # parsing HTML
+          file_write.write(f"{soup.data}") # writing data to txt
           await message.reply_document(f"HtmlData-{message.chat.username}.txt",caption="©@BugHunterBots")
           os.remove(f"HtmlData-{message.chat.username}.txt")
     await txt.delete()
@@ -61,9 +61,9 @@ async def scrapping(bot,message):
     txt = await message.reply_text(f"Getting all Links from {url}",disable_web_page_preview=True)
     with open(f'AllLinks-{message.chat.username}.txt', 'a+') as text_path:
           file_write = open(f'AllLinks-{message.chat.username}.txt','a+')
-          for link in soup.find_all('a'):
-              links=link.get('href')
-              file_write.write(f"{links}\n\n")
+          for link in soup.find_all('a'): # getting all <a> tags in Html
+              links=link.get('href') # Extracting Href value of <a>
+              file_write.write(f"{links}\n\n") # writing links to txt file
           await message.reply_document(f"AllLinks-{message.chat.username}.txt",caption="©@BugHunterBots")
           os.remove(f"AllLinks-{message.chat.username}.txt")
     await txt.delete()
@@ -76,9 +76,9 @@ async def scrapping(bot,message):
     with open(f'AllParagraph-{message.chat.username}.txt', 'a+') as text_path:
           file_write = open(f'AllParagraph-{message.chat.username}.txt','a+')
           paragraph=''
-          for para in soup.find_all('p'):
-              paragraph=para.get_text()
-              file_write.write(f"{paragraph}\n\n")
+          for para in soup.find_all('p'): # Extracting all <p> tags
+              paragraph=para.get_text() # Getting Text from Paragraphs
+              file_write.write(f"{paragraph}\n\n") # writing to a file
           await txt.delete()
           await message.reply_document(f"AllParagraph-{message.chat.username}.txt",caption="©@BugHunterBots")
           os.remove(f"AllParagraph-{message.chat.username}.txt")
@@ -88,5 +88,22 @@ async def scrapping(bot,message):
           await message.reply_text(text="No Paragraphs Found !!",disable_web_page_preview=True)            
           await txt.delete()
           return
+
+# Use soup.find_all('tag_name') to Extract Specific Tag Details
+"""
+soup.title
+# <title>The Dormouse's story</title>
+
+soup.title.name
+# u'title'
+
+soup.title.string
+# u'The Dormouse's story'
+
+soup.title.parent.name
+# u'head'
+"""
+
+
 
 bughunter0.run()
