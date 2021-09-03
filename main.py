@@ -35,6 +35,7 @@ async def scrapping(bot,message):
     with open(f'RawData-{message.chat.username}.txt', 'a+') as text_path:  
          file_write = open(f'RawData-{message.chat.username}.txt','a+')
          file_write.write(f"{request.content}") # Writing Raw Content to Txt file
+         file_write.close
          await message.reply_document(f"RawData-{message.chat.username}.txt",caption="©@BugHunterBots")
          os.remove(f"RawData-{message.chat.username}.txt")
     await txt.delete()
