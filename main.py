@@ -51,6 +51,7 @@ async def scrapping(bot,message):
           file_write = open(f'HtmlData-{message.chat.username}.txt','a+')
           soup.data=soup.prettify()  # parsing HTML
           file_write.write(f"{soup.data}") # writing data to txt
+          file_write.close
           await message.reply_document(f"HtmlData-{message.chat.username}.txt",caption="©@BugHunterBots")
           os.remove(f"HtmlData-{message.chat.username}.txt")
     await txt.delete()
@@ -65,6 +66,7 @@ async def scrapping(bot,message):
           for link in soup.find_all('a'): # getting all <a> tags in Html
               links=link.get('href') # Extracting Href value of <a>
               file_write.write(f"{links}\n\n") # writing links to txt file
+              file_write.close
           await message.reply_document(f"AllLinks-{message.chat.username}.txt",caption="©@BugHunterBots")
           os.remove(f"AllLinks-{message.chat.username}.txt")
     await txt.delete()
@@ -80,6 +82,7 @@ async def scrapping(bot,message):
           for para in soup.find_all('p'): # Extracting all <p> tags
               paragraph=para.get_text() # Getting Text from Paragraphs
               file_write.write(f"{paragraph}\n\n") # writing to a file
+              file_write.close
           await txt.delete()
           await message.reply_document(f"AllParagraph-{message.chat.username}.txt",caption="©@BugHunterBots")
           os.remove(f"AllParagraph-{message.chat.username}.txt")
