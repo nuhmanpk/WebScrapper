@@ -16,3 +16,8 @@ Simple Web scrapper Bot to scrap webpages using Requests, html5lib and Beautiful
    `Learning curve, Even the easiest scraping tool takes time to master,The structure of websites change frequently,Scraped data is arranged according to the structure of the website,It is not easy to handle complex websites,To extract data on a large scale is way harder,A web scraping tool is not omnipotent` 
 
 [Take a Demo Here](https://t.me/WebScrapperRoBot)
+
+
+# Credits
+[Pyrogram](hjdh)<br>
+[Contributors](https://github.com/bughunter0/WebScrapperRoBot/graphs/contributors)
