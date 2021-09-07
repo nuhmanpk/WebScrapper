@@ -120,7 +120,7 @@ async def scrapping(_, message: Message):
         await txt.delete()
         return
 
-=======
+
 async def scrapping(bot,message):
  try:  # Extracting Raw Data From Webpage ( Unstructured format)
     txt = await message.reply_text("Validating Link")
