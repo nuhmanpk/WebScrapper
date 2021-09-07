@@ -82,8 +82,8 @@ async def scrapping(_, message: Message):
         )
         os.remove(f"AllLinks-{message.chat.username}.txt")
         await txt.delete()
-    except Exception:
-        await message.reply_text(text=f"No Links Found !!", disable_web_page_preview=True, quote=True)
+    except Exception as error:
+        await message.reply_text(text=f"{error}", disable_web_page_preview=True, quote=True)
         await txt.delete()
 
     try:
@@ -115,8 +115,8 @@ async def scrapping(_, message: Message):
             ]])
         )
         os.remove(f"AllParagraph-{message.chat.username}.txt")
-    except Exception:
-        await message.reply_text(text="No Paragraphs Found !!", disable_web_page_preview=True, quote=True)
+    except Exception as error:
+        await message.reply_text(text="{error}", disable_web_page_preview=True, quote=True)
         await txt.delete()
         return
 
