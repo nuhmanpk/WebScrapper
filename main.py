@@ -8,7 +8,7 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from bs4 import BeautifulSoup
 import requests
-from telegraph.api import Telegraph
+
 
 bughunter0 = Client(
     "WebScrapperBot",
@@ -16,9 +16,7 @@ bughunter0 = Client(
     api_id=int(os.environ["API_ID"]),
     api_hash=os.environ["API_HASH"]
 )
-telegraph = Telegraph(
-    access_token=os.environ.get("TELEGRAPH_TOKEN", "dbc6169e9c7b4871fd681d87c80f5f5371fd59bff01dc95eca546cdb41a1")
-)
+
 
 
 @bughunter0.on_message(filters.command(["start"]))
@@ -66,19 +64,9 @@ async def scrapping(_, message: Message):
             links = link.get('href')  # Extracting Href value of <a>
             file_write.write(f"{links}\n\n")  # writing links to txt file
         file_write.close()
-        with open(f'AllLinks-{message.chat.username}.txt', "r") as file_text:
-            telegraph_resp = telegraph.create_page(
-                title="WebScrapperBot Data",
-                author_name="WebScrapperBot",
-                author_url="https://github.com/bughunter0/WebScrapperRoBot",
-                html_content=file_text.read()
-            )
         await message.reply_document(
             f"AllLinks-{message.chat.username}.txt",
-            caption="©@BugHunterBots",
-            reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("Open in Telegraph", url=f"https://telegra.ph/{telegraph_resp['url']}")
-            ]])
+            caption="©@BugHunterBots"
         )
         os.remove(f"AllLinks-{message.chat.username}.txt")
         await txt.delete()
@@ -98,25 +86,16 @@ async def scrapping(_, message: Message):
             paragraph = para.get_text()  # Getting Text from Paragraphs
             file_write.write(f"{paragraph}\n\n")  # writing to a file
         file_write.close()
-        with open(f'AllLinks-{message.chat.username}.txt', "r") as file_text:
-            telegraph_resp = telegraph.create_page(
-                title="WebScrapperBot Data",
-                author_name="WebScrapperBot",
-                author_url="https://github.com/bughunter0/WebScrapperRoBot",
-                html_content=file_text.read()
-            )
+        
         await txt.delete()
         await message.reply_document(
             f"AllParagraph-{message.chat.username}.txt",
             caption="©@BugHunterBots",
-            quote=True,
-            reply_markup=InlineKeyboardMarkup([[
-                InlineKeyboardButton("Open in Telegraph", url=f"https://telegra.ph/{telegraph_resp['url']}")
-            ]])
+            quote=True
         )
         os.remove(f"AllParagraph-{message.chat.username}.txt")
     except Exception as error:
-        await message.reply_text(text="{error}", disable_web_page_preview=True, quote=True)
+        await message.reply_text(text=f"No Paragraphs Found!!", disable_web_page_preview=True, quote=True)
         await txt.delete()
         return
 
@@ -126,13 +105,13 @@ async def scrapping(_, message: Message):
 # Use soup.find_all('tag_name') to Extract Specific Tag Details
 """
 soup.title
-# <title>The Dormouse's story</title>
+# <title>This is Title</title>
 
 soup.title.name
 # u'title'
 
 soup.title.string
-# u'The Dormouse's story'
+# u'This is a string'
 
 soup.title.parent.name
 # u'head'
