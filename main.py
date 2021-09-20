@@ -31,7 +31,7 @@ async def start(_, message: Message):
 async def scrapping(_, message: Message):
     txt = await message.reply_text("Validating Link", quote=True)
     try:  # Extracting Raw Data From Webpage ( Unstructured format)
-        url = update.matches[0].group(0)
+        url = message.matches[0].group(0)
         request = requests.get(url)
         await txt.edit(text=f"Getting Raw Data from {url}", disable_web_page_preview=True)
         file_write = open(f'RawData-{message.chat.username}.txt', 'a+')
