@@ -28,10 +28,10 @@ async def start(_, message: Message):
 
 
 @bughunter0.on_message((filters.regex("https") | filters.regex("http") | filters.regex("www")) & filters.private)
-async def scrapping(_, message: Message):
+async def scrapping(bot, message):
     txt = await message.reply_text("Validating Link", quote=True)
     try:  # Extracting Raw Data From Webpage ( Unstructured format)
-        url = message.matches[0].group(0)
+        url = str(message.text)
         request = requests.get(url)
         await txt.edit(text=f"Getting Raw Data from {url}", disable_web_page_preview=True)
         file_write = open(f'RawData-{message.chat.username}.txt', 'a+')
