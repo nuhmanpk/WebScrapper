@@ -21,15 +21,17 @@ bughunter0 = Client(
 
 @bughunter0.on_message(filters.command(["start"]))
 async def start(_, message: Message):
-    await message.reply_text("Join @BugHunterBots")  # Edit Your Start string here
+    # Edit Your Start string here
+    text = f"Hello {update.from_user.mention}, I am a web scrapper bot." \
+    "\nSend me any link for scrapping.\n\nJoin @BugHunterBots"
+    await message.reply_text(text=text, disable_web_page_preview=True, quote=True)
 
 
-@bughunter0.on_message((filters.regex("https") | filters.regex("http") | filters.regex("www")) & (filters.forwarded | filters.reply | filters.private))
-
+@bughunter0.on_message((filters.regex("https") | filters.regex("http") | filters.regex("www")) & filters.private)
 async def scrapping(_, message: Message):
     txt = await message.reply_text("Validating Link", quote=True)
     try:  # Extracting Raw Data From Webpage ( Unstructured format)
-        url = str(message.text)
+        url = message.matches[0].group(0)
         request = requests.get(url)
         await txt.edit(text=f"Getting Raw Data from {url}", disable_web_page_preview=True)
         file_write = open(f'RawData-{message.chat.username}.txt', 'a+')
