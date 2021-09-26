@@ -21,4 +21,6 @@ Simple Web scrapper Bot to scrap webpages using Requests, html5lib and Beautiful
 # Credits
 [Me](https://github.com/bughunter0)<br>
 [Pyrogram](docs.pyrogram.org)<br>
-[Contributors](https://github.com/bughunter0/WebScrapperRoBot/graphs/contributors)
+## Contributors
+
+![GitHub Contributors Image](https://contrib.rocks/image?repo=bughunter0/WebScrapperRoBot)
