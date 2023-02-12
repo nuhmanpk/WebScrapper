@@ -1,5 +1,8 @@
+# *Created a new Pypi package for scaping image,text,audio,video and metadata from web [check It Here](https://github.com/nuhmanpk/Webtrench)*
+
 # WebScrapperRoBot
 Simple Web scrapper Bot to scrap webpages using Requests, html5lib and Beautifulsoup.
+
 <Br><b>Mark your Star ⭐⭐<b>
 
 ## What is Web Scraping ?
