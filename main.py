@@ -1,5 +1,5 @@
 # © BugHunterCodeLabs ™
-# © app
+# © bughunter0
 # © Nuhman Pk
 # 2021 - 2023
 # Copyright - https://en.m.wikipedia.org/wiki/Fair_use
@@ -252,7 +252,6 @@ async def all_images_scraping(query):
             await txt.edit(text=f"No Images Found!!!", disable_web_page_preview=True)
             return
     except Exception as e:
-        print("🚈 ~ webscp.py:233 -> e: ",  e)
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
         text = f'Something Bad occurred !!!\nCreate an issue here'
