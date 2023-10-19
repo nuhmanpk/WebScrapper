@@ -123,9 +123,6 @@ async def raw_data_scraping(query):
         file_write = open(f'RawData-{message.chat.username}.txt', 'a+')
         file_write.write(f"{request.content}")
         file_write.close()
-        #
-        something = something+1
-        #
         await message.reply_document(f"RawData-{message.chat.username}.txt", caption="©@BugHunterBots", quote=True)
         os.remove(f"RawData-{message.chat.username}.txt")
         return
