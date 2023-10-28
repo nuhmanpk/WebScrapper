@@ -3,6 +3,47 @@
 # WebScrapperRoBot
 Simple Web scrapper Bot to scrap webpages using Requests, html5lib and Beautifulsoup.
 
+# Setting Up a Project and Configuring Environment Variables
+
+To set up the project and configure environment variables, follow these steps:
+
+### 1. Clone the Repository
+
+Clone the project's repository from your preferred version control platform (e.g., Git) to your local machine.
+
+### 2. Virtual Environment (Optional)
+
+It's a good practice to create a virtual environment for the project. You can use virtualenv or venv for this purpose.
+
+```bash
+python -m venv venv
+source venv/bin/activate  # On Unix/Linux systems
+
+3. Install Dependencies
+Use pip to install the project is dependencies from the requirements.txt file.
+bash
+Copy code
+pip install -r requirements.txt
+
+4. Create the .env File
+Create a .env file in the project is root directory. This file will contain the necessary environment variables. You can either copy a sample file or create it manually.
+
+5. Configure Environment Variables
+Open the .env file and set the required environment variables in the format VARIABLE_NAME=value. For example:
+
+env
+Copy code
+BOT_TOKEN=your_bot_token_here
+API_ID=your_api_id_here
+API_HASH=your_api_hash_here
+
+6. Run the Project
+Execute the project using the appropriate command (e.g., python my_project.py) and access your environment variables in the code to retrieve configurations.
+
+7. Consider Secret Management (Optional)
+
+If you deploy your project on a cloud server, consider using a secrets manager like AWS Secrets Manager, Google Secret Manager, or a similar service. This will help you securely store your configurations in a production environment.
+
 <Br><b>Mark your Star ⭐⭐<b>
 
 ## What is Web Scraping ?

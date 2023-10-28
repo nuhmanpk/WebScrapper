@@ -9,23 +9,23 @@ from pyrogram import Client, filters
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from bs4 import BeautifulSoup
 import requests
+import os
 import shutil
 from urllib.parse import quote
+from dotenv import load_dotenv
+import os
 
+# Carga las variables de entorno desde el archivo .env
+load_dotenv()
 
-# app = Client(
-#     "WebScrapperBot",
-#     bot_token=os.environ["BOT_TOKEN"],
-#     api_id=int(os.environ["API_ID"]),
-#     api_hash=os.environ["API_HASH"]
-# )
+# Retrieve values from environment variables
+bot_token = os.getenv('BOT_TOKEN')
+api_id = os.getenv('ID_AS_STRING')
+api_hash = os.getenv('API_HASH')
 
-app = Client(
-    "WebScrapperBot",
-    bot_token='TOKEN_HERE',
-    api_id=int('ID_AS_STRING'),
-    api_hash='HASH_HERE'
-)
+if bot_token is None or api_id is None or api_hash is None:
+    raise ValueError("Please set the BOT_TOKEN, API_ID, and API_HASH environment variables.")
+
 
 
 REPO = 'https://github.com/nuhmanpk/WebScrapper/'
