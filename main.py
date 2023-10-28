@@ -10,7 +10,6 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 from bs4 import BeautifulSoup
 import requests
 import os
-from telethon.sync import TelegramClient as Client
 import shutil
 from urllib.parse import quote
 from dotenv import load_dotenv
@@ -27,7 +26,6 @@ api_hash = os.getenv('API_HASH')
 if bot_token is None or api_id is None or api_hash is None:
     raise ValueError("Please set the BOT_TOKEN, API_ID, and API_HASH environment variables.")
 
-app = Client("WebScrapperBot", bot_token=bot_token, api_id=int(api_id), api_hash=api_hash)
 
 
 REPO = 'https://github.com/nuhmanpk/WebScrapper/'
