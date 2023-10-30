@@ -15,10 +15,8 @@ from urllib.parse import quote
 from dotenv import load_dotenv
 import os
 
-# Carga las variables de entorno desde el archivo .env
 load_dotenv()
 
-# Retrieve values from environment variables
 bot_token = os.getenv('BOT_TOKEN')
 api_id = os.getenv('ID_AS_STRING')
 api_hash = os.getenv('API_HASH')
@@ -26,6 +24,7 @@ api_hash = os.getenv('API_HASH')
 if bot_token is None or api_id is None or api_hash is None:
     raise ValueError("Please set the BOT_TOKEN, API_ID, and API_HASH environment variables.")
 
+app = Client("WebScrapperBot", bot_token=bot_token, api_id=int(api_id), api_hash=api_hash)
 
 
 REPO = 'https://github.com/nuhmanpk/WebScrapper/'
