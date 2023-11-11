@@ -7,7 +7,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from bs4 import BeautifulSoup
 from urllib.parse import quote
 from utils import REPO
-from helpers import download_image, download_media, progress_bar
+from helpers import download_image, download_media, download_pdf, progress_bar
 
 async def scrape(url):
     try:
@@ -243,9 +243,7 @@ async def all_video_scraping(query):
                 if video_data:
                     with open(os.path.join(folder_name, local_filename), "wb") as file:
                         file.write(video_data)
-                        
-                    
-                
+                             
                 await status.edit(f'Downloaded {idx + 1}/{len(video_links)}')
                 time.sleep(.3)
             
@@ -269,6 +267,66 @@ async def all_video_scraping(query):
     except Exception as e:
         print(e)
         os.remove(zip_filename)
+        error = f"ERROR: {(str(e))}"
+        error_link = f"{REPO}/issues/new?title={quote(error)}"
+        text = f'Something Bad occurred !!!\nCreate an issue here'
+        issue_markup = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Create Issue", url=error_link)]])
+        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+        return e
+
+
+async def all_pdf_scraping(query):
+    try:
+        message = query.message
+        txt = await message.reply_text("Scraping url ...", quote=True)
+        request, soup = await scrape(message.text)
+        pdf_links = []
+
+        for link in soup.find_all('a'):
+            if 'href' in link.attrs and link['href'].endswith('.pdf'):
+                pdf_links.append(link['href'])
+
+        if len(pdf_links):
+            txt = await txt.edit(text=f"Found {len(pdf_links)} Pdfs", disable_web_page_preview=True)
+            status = await message.reply_text("Checking...", quote=True)
+            folder_name = f"{message.chat.id}-pdfs"
+            os.makedirs(folder_name, exist_ok=True)
+
+            for idx, pdf_link in enumerate(pdf_links):
+                progress, finished_length = await progress_bar(idx + 1, len(pdf_links))
+
+                try:
+                    await status.edit(f"Downloading...{idx + 1}/{len(pdf_links)}\nPercentage: {finished_length*10}%\nProgress: {progress}\n")
+                except:
+                    pass
+
+                pdf_data = await download_pdf(message.text, pdf_link, idx, 'pdf')
+
+                if pdf_data:
+                    with open(os.path.join(folder_name), "wb") as file:
+                        file.write(pdf_data)
+
+                await status.edit(f'Downloaded {idx + 1}/{len(pdf_links)}')
+                time.sleep(0.3)
+
+            await status.edit('Uploading ....')
+            zip_filename = f"{folder_name}.zip"
+            shutil.make_archive(folder_name, 'zip', folder_name)
+
+            await message.reply_document(open(zip_filename, "rb"), caption="Here are the Pdfs! \n @BughunterBots")
+            await status.delete()
+            await txt.delete()
+            shutil.rmtree(folder_name)
+            await asyncio.sleep(1)
+            os.remove(zip_filename)
+            return
+        else:
+            await txt.edit(text=f"No Pdf Found!!!", disable_web_page_preview=True)
+            return
+
+    except Exception as e:
+        print(e)
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
         text = f'Something Bad occurred !!!\nCreate an issue here'

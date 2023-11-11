@@ -29,22 +29,24 @@ CLOSE_BUTTON = InlineKeyboardMarkup(
 )
 
 OPTIONS = InlineKeyboardMarkup(
+    [
         [
-            [
-                InlineKeyboardButton('Raw Data', callback_data='cbrdata',),
-                InlineKeyboardButton('HTML Data', callback_data='cbhtmldata')
-            ],
-            [
-                InlineKeyboardButton('All Links', callback_data='cballlinks'),
-                InlineKeyboardButton(
-                    'All Paragraphs', callback_data='cballparagraphs')
-            ],
-            [
-                InlineKeyboardButton('All Images', callback_data='cballimages')
-            ],
-            [
-                InlineKeyboardButton('All Audio', callback_data='cballaudio',),
-                InlineKeyboardButton('All Video', callback_data='cballvideo')
-            ]
+            InlineKeyboardButton('📄 Full Content', callback_data='cbrdata'),
+            InlineKeyboardButton('📝 HTML Data', callback_data='cbhtmldata')
+        ],
+        [
+            InlineKeyboardButton('🔗 All Links', callback_data='cballlinks'),
+            InlineKeyboardButton('📃 All Paragraphs', callback_data='cballparagraphs')
+        ],
+        [
+            InlineKeyboardButton('🌄 All Images', callback_data='cballimages')
+        ],
+        [
+            InlineKeyboardButton('🎵 All Audio', callback_data='cballaudio'),
+            InlineKeyboardButton('🎥 All Video', callback_data='cballvideo')
+        ],
+        [
+            InlineKeyboardButton('📚 All PDFs', callback_data='cballpdf')
         ]
-    )
+    ]
+)

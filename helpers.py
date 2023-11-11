@@ -55,3 +55,27 @@ async def download_media(base_url, media_url, idx, media_type):
         print(f"Error downloading media from {media_url}: {e}")
         return None
     
+async def download_pdf(base_url, pdf_url, idx, media_type):
+    try:
+        if not pdf_url.startswith(('http:', 'https:')):
+            pdf_url = base_url + pdf_url
+        response = requests.get(pdf_url, stream=True)
+        response.raise_for_status()
+
+        # Extract filename from the URL
+        filename = os.path.basename(pdf_url)
+        local_filename = f"{media_type}{idx}_{filename}"
+
+        with open(local_filename, 'wb') as file:
+            for chunk in response.iter_content(chunk_size=8192):
+                file.write(chunk)
+
+        with open(local_filename, "rb") as file:
+            pdf_data = file.read()
+
+        os.remove(local_filename)
+        return pdf_data
+
+    except Exception as e:
+        print(f"Error downloading PDF from {pdf_url}: {e}")
+        return None
