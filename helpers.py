@@ -3,7 +3,8 @@ import requests
 from utils import FINISHED_PROGRESS_STR, UN_FINISHED_PROGRESS_STR
 import os
 from selenium import webdriver
-
+from selenium.webdriver.firefox.options import Options as FirefoxOptions
+from selenium.webdriver.chrome.options import Options
 
 async def progress_bar(current, total):
     percentage = current / total
@@ -86,8 +87,21 @@ async def download_pdf(base_url, pdf_url, idx, media_type):
 
 
 async def init_headless_browser(url):
-    options = webdriver.ChromeOptions()
-    options.headless = True
-    driver = webdriver.Chrome(options=options)
-    driver.get(url)
-    return driver
+    try:
+        options_chrome = Options()
+        options_chrome.headless = True
+        driver_chrome = webdriver.Chrome(options=options_chrome)
+        driver_chrome.get(url)
+        return driver_chrome
+    except Exception as e_chrome:
+        print(f"An error occurred while initializing the Chrome headless browser: {e_chrome}")
+
+        try:
+            options_firefox = FirefoxOptions()
+            options_firefox.headless = True
+            driver_firefox = webdriver.Firefox(options=options_firefox)
+            driver_firefox.get(url)
+            return driver_firefox
+        except Exception as e_firefox:
+            print(f"An error occurred while initializing the Firefox headless browser: {e_firefox}")
+            return None
