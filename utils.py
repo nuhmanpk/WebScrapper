@@ -58,6 +58,10 @@ OPTIONS = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton('📊 Metadata', callback_data='cbmetadata')
+        ],
+        [
+            InlineKeyboardButton('📷 Screenshot', callback_data='cbscreenshot'),
+            InlineKeyboardButton('🎬 Screen Record', callback_data='cbscreenrecord')
         ]
     ]
 )

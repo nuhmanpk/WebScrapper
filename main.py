@@ -21,6 +21,8 @@ from scraper import (
     html_data_scraping,
     raw_data_scraping,
     extract_metadata,
+    capture_screenshot,
+    record_screen
 )
 from utils import OPTIONS, START_BUTTON, START_TEXT
 
@@ -67,11 +69,14 @@ async def cb_data(bot, update):
         await all_pdf_scraping(update)
     elif update.data == "cbmetadata":
         await extract_metadata(update)
-        pass
     elif update.data == "cbcookies":
         await extract_cookies(update)
     elif update.data == "cblocalstorage":
         await extract_local_storage(update)
+    elif update.data == "cbscreenshot":
+        await capture_screenshot(update)
+    elif update.data == "cbscreenrecord":
+        await record_screen(update)
 
     else:
         await update.message.edit_text(
