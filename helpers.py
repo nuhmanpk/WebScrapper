@@ -1,22 +1,24 @@
-
 import shutil
 import requests
 from utils import FINISHED_PROGRESS_STR, UN_FINISHED_PROGRESS_STR
 import os
 from selenium import webdriver
 
+
 async def progress_bar(current, total):
     percentage = current / total
     finished_length = int(percentage * 10)
     unfinished_length = 10 - finished_length
     progress = f"{FINISHED_PROGRESS_STR * finished_length}{UN_FINISHED_PROGRESS_STR * unfinished_length}"
-    return progress, finished_length
+    formatted_percentage = "{:.2f}".format(percentage * 100)
+    return progress, formatted_percentage
+
 
 async def download_image(base_url, image_url, idx):
     try:
         r = requests.get(image_url, stream=True)
         r.raise_for_status()
-        with open(f"image{idx}.jpg", 'wb') as f:
+        with open(f"image{idx}.jpg", "wb") as f:
             r.raw.decode_content = True
             shutil.copyfileobj(r.raw, f)
         with open(f"image{idx}.jpg", "rb") as f:
@@ -44,21 +46,22 @@ async def download_media(base_url, media_url, idx, media_type):
             filename = os.path.basename(media_url)
             local_filename = f"{media_type}{idx}_{filename}"
 
-            with open(local_filename, 'wb') as file:
+            with open(local_filename, "wb") as file:
                 shutil.copyfileobj(response.raw, file)
 
             with open(local_filename, "rb") as file:
                 media_data = file.read()
 
             os.remove(local_filename)
-            return media_data,local_filename
+            return media_data, local_filename
     except Exception as e:
         print(f"Error downloading media from {media_url}: {e}")
         return None
-    
+
+
 async def download_pdf(base_url, pdf_url, idx, media_type):
     try:
-        if not pdf_url.startswith(('http:', 'https:')):
+        if not pdf_url.startswith(("http:", "https:")):
             pdf_url = base_url + pdf_url
         response = requests.get(pdf_url, stream=True)
         response.raise_for_status()
@@ -67,7 +70,7 @@ async def download_pdf(base_url, pdf_url, idx, media_type):
         filename = os.path.basename(pdf_url)
         local_filename = f"{media_type}{idx}_{filename}"
 
-        with open(local_filename, 'wb') as file:
+        with open(local_filename, "wb") as file:
             for chunk in response.iter_content(chunk_size=8192):
                 file.write(chunk)
 
@@ -80,6 +83,7 @@ async def download_pdf(base_url, pdf_url, idx, media_type):
     except Exception as e:
         print(f"Error downloading PDF from {pdf_url}: {e}")
         return None
+
 
 async def init_headless_browser(url):
     options = webdriver.ChromeOptions()

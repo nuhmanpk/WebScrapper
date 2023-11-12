@@ -7,25 +7,37 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from bs4 import BeautifulSoup
 from urllib.parse import quote
 from utils import REPO
-from helpers import download_image, download_media, download_pdf, init_headless_browser, progress_bar
+from helpers import (
+    download_image,
+    download_media,
+    download_pdf,
+    init_headless_browser,
+    progress_bar,
+)
+
 
 async def scrape(url):
     try:
         request = requests.get(url)
-        soup = BeautifulSoup(request.content, 'html5lib')
+        soup = BeautifulSoup(request.content, "html5lib")
         return request, soup
     except Exception as e:
         print(e)
         return None, None
 
+
 async def raw_data_scraping(query):
     try:
         message = query.message
         request, soup = await scrape(message.text)
-        file_write = open(f'RawData-{message.chat.username}.txt', 'a+')
+        file_write = open(f"RawData-{message.chat.username}.txt", "a+")
         file_write.write(f"{request.content}")
         file_write.close()
-        await message.reply_document(f"RawData-{message.chat.username}.txt", caption="©@BugHunterBots", quote=True)
+        await message.reply_document(
+            f"RawData-{message.chat.username}.txt",
+            caption="©@BugHunterBots",
+            quote=True,
+        )
         await asyncio.sleep(1)
         os.remove(f"RawData-{message.chat.username}.txt")
         return
@@ -33,31 +45,42 @@ async def raw_data_scraping(query):
         os.remove(f"RawData-{message.chat.username}.txt")
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
-        text = f'Something Bad occurred !!!\nCreate an issue here'
+        text = f"Something Bad occurred !!!\nCreate an issue here"
         issue_markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Create Issue", url=error_link)]])
-        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
         return e
-    
+
+
 async def html_data_scraping(query):
     try:
         message = query.message
         request, soup = await scrape(message.text)
-        file_write = open(f'HtmlData-{message.chat.username}.txt', 'a+')
+        file_write = open(f"HtmlData-{message.chat.username}.txt", "a+")
         soup.data = soup.prettify()
         file_write.write(f"{soup.data}")
         file_write.close()
-        await message.reply_document(f"HtmlData-{message.chat.username}.txt", caption="©@BugHunterBots", quote=True)
-        await asyncio.sleep(1)        
+        await message.reply_document(
+            f"HtmlData-{message.chat.username}.txt",
+            caption="©@BugHunterBots",
+            quote=True,
+        )
+        await asyncio.sleep(1)
         os.remove(f"HtmlData-{message.chat.username}.txt")
     except Exception as e:
         os.remove(f"HtmlData-{message.chat.username}.txt")
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
-        text = f'Something Bad occurred !!!\nCreate an issue here'
+        text = f"Something Bad occurred !!!\nCreate an issue here"
         issue_markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Create Issue", url=error_link)]])
-        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
         return e
 
 
@@ -65,14 +88,13 @@ async def all_links_scraping(query):
     try:
         message = query.message
         request, soup = await scrape(message.text)
-        file_write = open(f'AllLinks-{message.chat.username}.txt', 'a+')
-        for link in soup.find_all('a'):
-            links = link.get('href')
+        file_write = open(f"AllLinks-{message.chat.username}.txt", "a+")
+        for link in soup.find_all("a"):
+            links = link.get("href")
             file_write.write(f"{links}\n\n")
         file_write.close()
         await message.reply_document(
-            f"AllLinks-{message.chat.username}.txt",
-            caption="©@BugHunterBots"
+            f"AllLinks-{message.chat.username}.txt", caption="©@BugHunterBots"
         )
         await asyncio.sleep(1)
         os.remove(f"AllLinks-{message.chat.username}.txt")
@@ -80,10 +102,13 @@ async def all_links_scraping(query):
         os.remove(f"AllLinks-{message.chat.username}.txt")
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
-        text = f'Something Bad occurred !!!\nCreate an issue here'
+        text = f"Something Bad occurred !!!\nCreate an issue here"
         issue_markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Create Issue", url=error_link)]])
-        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
         return e
 
 
@@ -91,9 +116,9 @@ async def all_paragraph_scraping(query):
     try:
         message = query.message
         request, soup = await scrape(message.text)
-        file_write = open(f'AllParagraph-{message.chat.username}.txt', 'a+')
+        file_write = open(f"AllParagraph-{message.chat.username}.txt", "a+")
         paragraph = ""
-        for para in soup.find_all('p'):
+        for para in soup.find_all("p"):
             paragraph = para.get_text()
             file_write.write(f"{paragraph}\n\n")
         file_write.close()
@@ -101,18 +126,21 @@ async def all_paragraph_scraping(query):
         await message.reply_document(
             f"AllParagraph-{message.chat.username}.txt",
             caption="©@BugHunterBots",
-            quote=True
+            quote=True,
         )
-        await asyncio.sleep(1)        
+        await asyncio.sleep(1)
         os.remove(f"AllParagraph-{message.chat.username}.txt")
     except Exception as e:
         os.remove(f"AllParagraph-{message.chat.username}.txt")
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
-        text = f'Something Bad occurred !!!\nCreate an issue here'
+        text = f"Something Bad occurred !!!\nCreate an issue here"
         issue_markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Create Issue", url=error_link)]])
-        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
         return e
 
 
@@ -122,11 +150,13 @@ async def all_images_scraping(query):
         txt = await message.reply_text("Scraping url ...", quote=True)
         request, soup = await scrape(message.text)
         image_links = []
-        for img_tag in soup.find_all('img'):
-            img_url = img_tag.get('src')
+        for img_tag in soup.find_all("img"):
+            img_url = img_tag.get("src")
             image_links.append(img_url)
 
-        text = await txt.edit(text=f"Found {len(image_links)} Images", disable_web_page_preview=True)
+        text = await txt.edit(
+            text=f"Found {len(image_links)} Images", disable_web_page_preview=True
+        )
 
         if len(image_links):
             status = await message.reply_text("Checking...", quote=True)
@@ -137,16 +167,24 @@ async def all_images_scraping(query):
                 if image_data:
                     with open(f"{folder_name}/image{idx}.jpg", "wb") as file:
                         file.write(image_data)
-                    progress, finished_length = await progress_bar(idx+1, len(image_links))
+                    (
+                        progress,
+                        percentage,
+                    ) = await progress_bar(idx + 1, len(image_links))
                     try:
-                        await status.edit(f"Downloding...\nPercentage: {finished_length*10}%\nProgress: {progress}\n")
+                        await status.edit(
+                            f"Downloding...\nPercentage: {percentage}%\nProgress: {progress}\n"
+                        )
                     except:
                         pass
-            await status.edit('Uploading ....')
+            await status.edit("Uploading ....")
             zip_filename = f"{message.chat.id}-images.zip"
-            shutil.make_archive(folder_name, 'zip', folder_name)
+            shutil.make_archive(folder_name, "zip", folder_name)
 
-            await message.reply_document(open(zip_filename, "rb"), caption="Here are the images! \n @BUghunterBots")
+            await message.reply_document(
+                open(zip_filename, "rb"),
+                caption="Here are the images! \n @BUghunterBots",
+            )
             await status.delete()
             await text.delete()
             shutil.rmtree(folder_name)
@@ -159,40 +197,52 @@ async def all_images_scraping(query):
     except Exception as e:
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
-        text = f'Something Bad occurred !!!\nCreate an issue here'
+        text = f"Something Bad occurred !!!\nCreate an issue here"
         issue_markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Create Issue", url=error_link)]])
-        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
         return e
-    
-    
+
+
 async def all_audio_scraping(query):
     try:
         message = query.message
         txt = await message.reply_text("Scraping url ...", quote=True)
         request, soup = await scrape(message.text)
-        audio_links = [link['src'] for link in soup.find_all('audio')]
+        audio_links = [link["src"] for link in soup.find_all("audio")]
         if len(audio_links):
-            await txt.edit(text=f"Found {len(audio_links)} Images", disable_web_page_preview=True)
+            await txt.edit(
+                text=f"Found {len(audio_links)} Images", disable_web_page_preview=True
+            )
             status = await message.reply_text("Checking...", quote=True)
             folder_name = f"{message.chat.id}-audios"
             os.makedirs(folder_name, exist_ok=True)
             for idx, audio_link in enumerate(audio_links):
-                audio_data = await download_media(message.text, audio_link, idx, 'audio')
+                audio_data = await download_media(
+                    message.text, audio_link, idx, "audio"
+                )
                 if audio_data:
                     with open(f"{folder_name}/audio{idx}.jpg", "wb") as file:
                         file.write(audio_data)
-                    progress, finished_length = await progress_bar(idx+1, len(audio_links))
+                    progress, percentage = await progress_bar(idx + 1, len(audio_links))
                     try:
-                        await status.edit(f"Downloding...\nPercentage: {finished_length*10}%\nProgress: {progress}\n")
+                        await status.edit(
+                            f"Downloding...\nPercentage: {percentage}%\nProgress: {progress}\n"
+                        )
                     except:
                         pass
-                await status.edit(f'Downloaded {idx + 1}/{len(audio_links)}')
-            await status.edit('Uploading ....')
+                await status.edit(f"Downloaded {idx + 1}/{len(audio_links)}")
+            await status.edit("Uploading ....")
             zip_filename = f"{message.chat.id}-audios.zip"
-            shutil.make_archive(folder_name, 'zip', folder_name)
+            shutil.make_archive(folder_name, "zip", folder_name)
 
-            await message.reply_document(open(zip_filename, "rb"), caption="Here are the images! \n @BUghunterBots")
+            await message.reply_document(
+                open(zip_filename, "rb"),
+                caption="Here are the images! \n @BUghunterBots",
+            )
             await status.delete()
             await txt.delete()
             shutil.rmtree(folder_name)
@@ -202,14 +252,17 @@ async def all_audio_scraping(query):
         else:
             await txt.edit(text=f"No Audios Found!!!", disable_web_page_preview=True)
             return
-            
+
     except Exception as e:
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
-        text = f'Something Bad occurred !!!\nCreate an issue here'
+        text = f"Something Bad occurred !!!\nCreate an issue here"
         issue_markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Create Issue", url=error_link)]])
-        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
         print(e)
         return e
 
@@ -219,39 +272,51 @@ async def all_video_scraping(query):
         message = query.message
         txt = await message.reply_text("Scraping url ...", quote=True)
         request, soup = await scrape(message.text)
-        
-        video_tags = soup.find_all('video')
 
-        video_links = [video['src'] if video.has_attr('src') else video.find('source')['src'] for video in video_tags]
+        video_tags = soup.find_all("video")
 
-        txt = await txt.edit(text=f"Found {len(video_links)} Videos", disable_web_page_preview=True)
-        
+        video_links = [
+            video["src"] if video.has_attr("src") else video.find("source")["src"]
+            for video in video_tags
+        ]
+
+        txt = await txt.edit(
+            text=f"Found {len(video_links)} Videos", disable_web_page_preview=True
+        )
+
         if len(video_links):
             status = await message.reply_text("Checking...", quote=True)
             folder_name = f"{message.chat.id}-videos"
             os.makedirs(folder_name, exist_ok=True)
-            
+
             for idx, video_link in enumerate(video_links):
-                progress, finished_length = await progress_bar(idx + 1, len(video_links))
-                
+                progress, percentage = await progress_bar(idx + 1, len(video_links))
+
                 try:
-                    await status.edit(f"Downloading...{idx + 1}/{len(video_links)}\nPercentage: {finished_length*10}%\nProgress: {progress}\n")
+                    await status.edit(
+                        f"Downloading...{idx + 1}/{len(video_links)}\nPercentage: {percentage}%\nProgress: {progress}\n"
+                    )
                 except:
                     pass
-                video_data,local_filename = await download_media(message.text, video_link, idx, 'video')
-                
+                video_data, local_filename = await download_media(
+                    message.text, video_link, idx, "video"
+                )
+
                 if video_data:
                     with open(os.path.join(folder_name, local_filename), "wb") as file:
                         file.write(video_data)
-                             
-                await status.edit(f'Downloaded {idx + 1}/{len(video_links)}')
-                time.sleep(.3)
-            
-            await status.edit('Uploading ....')
-            zip_filename = f"{folder_name}.zip"
-            shutil.make_archive(folder_name, 'zip', folder_name)
 
-            await message.reply_document(open(zip_filename, "rb"), caption="Here are the videos! \n @BughunterBots")
+                await status.edit(f"Downloaded {idx + 1}/{len(video_links)}")
+                time.sleep(0.3)
+
+            await status.edit("Uploading ....")
+            zip_filename = f"{folder_name}.zip"
+            shutil.make_archive(folder_name, "zip", folder_name)
+
+            await message.reply_document(
+                open(zip_filename, "rb"),
+                caption="Here are the videos! \n @BughunterBots",
+            )
             # await message.reply_video(local_filename)
             await status.delete()
             await txt.delete()
@@ -269,10 +334,13 @@ async def all_video_scraping(query):
         os.remove(zip_filename)
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
-        text = f'Something Bad occurred !!!\nCreate an issue here'
+        text = f"Something Bad occurred !!!\nCreate an issue here"
         issue_markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Create Issue", url=error_link)]])
-        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
         return e
 
 
@@ -283,38 +351,44 @@ async def all_pdf_scraping(query):
         request, soup = await scrape(message.text)
         pdf_links = []
 
-        for link in soup.find_all('a'):
-            if 'href' in link.attrs and link['href'].endswith('.pdf'):
-                pdf_links.append(link['href'])
+        for link in soup.find_all("a"):
+            if "href" in link.attrs and link["href"].endswith(".pdf"):
+                pdf_links.append(link["href"])
 
         if len(pdf_links):
-            txt = await txt.edit(text=f"Found {len(pdf_links)} Pdfs", disable_web_page_preview=True)
+            txt = await txt.edit(
+                text=f"Found {len(pdf_links)} Pdfs", disable_web_page_preview=True
+            )
             status = await message.reply_text("Checking...", quote=True)
             folder_name = f"{message.chat.id}-pdfs"
             os.makedirs(folder_name, exist_ok=True)
 
             for idx, pdf_link in enumerate(pdf_links):
-                progress, finished_length = await progress_bar(idx + 1, len(pdf_links))
+                progress, percentage = await progress_bar(idx + 1, len(pdf_links))
 
                 try:
-                    await status.edit(f"Downloading...{idx + 1}/{len(pdf_links)}\nPercentage: {finished_length*10}%\nProgress: {progress}\n")
+                    await status.edit(
+                        f"Downloading...{idx + 1}/{len(pdf_links)}\nPercentage: {percentage}%\nProgress: {progress}\n"
+                    )
                 except:
                     pass
 
-                pdf_data = await download_pdf(message.text, pdf_link, idx, 'pdf')
+                pdf_data = await download_pdf(message.text, pdf_link, idx, "pdf")
 
                 if pdf_data:
                     with open(os.path.join(folder_name), "wb") as file:
                         file.write(pdf_data)
 
-                await status.edit(f'Downloaded {idx + 1}/{len(pdf_links)}')
+                await status.edit(f"Downloaded {idx + 1}/{len(pdf_links)}")
                 time.sleep(0.3)
 
-            await status.edit('Uploading ....')
+            await status.edit("Uploading ....")
             zip_filename = f"{folder_name}.zip"
-            shutil.make_archive(folder_name, 'zip', folder_name)
+            shutil.make_archive(folder_name, "zip", folder_name)
 
-            await message.reply_document(open(zip_filename, "rb"), caption="Here are the Pdfs! \n @BughunterBots")
+            await message.reply_document(
+                open(zip_filename, "rb"), caption="Here are the Pdfs! \n @BughunterBots"
+            )
             await status.delete()
             await txt.delete()
             shutil.rmtree(folder_name)
@@ -329,10 +403,13 @@ async def all_pdf_scraping(query):
         print(e)
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
-        text = f'Something Bad occurred !!!\nCreate an issue here'
+        text = f"Something Bad occurred !!!\nCreate an issue here"
         issue_markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Create Issue", url=error_link)]])
-        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
         return e
 
 
@@ -344,27 +421,33 @@ async def extract_cookies(query):
         txt = await message.reply_text("Initiating chrome Driver...", quote=True)
         driver = await init_headless_browser(url)
 
-        await txt.edit('Getting cookies...')
+        await txt.edit("Getting cookies...")
         cookies = driver.get_cookies()
-        await txt.edit('Preparing files...')
-        file_write = open(f'Cookies-{chat_id}.txt', 'a+')
+        await txt.edit("Preparing files...")
+        file_write = open(f"Cookies-{chat_id}.txt", "a+")
         file_write.write(f"{cookies}")
         file_write.close()
-        await txt.edit('Uploading...')
-        await message.reply_document(f"Cookies-{chat_id}.txt", caption="©@BugHunterBots", quote=True)
-        await asyncio.sleep(1) 
+        await txt.edit("Uploading...")
+        await message.reply_document(
+            f"Cookies-{chat_id}.txt", caption="©@BugHunterBots", quote=True
+        )
+        await asyncio.sleep(1)
         os.remove(f"Cookies-{chat_id}.txt")
-        await txt.delete()       
+        await txt.delete()
     except Exception as e:
         os.remove(f"Cookies-{chat_id}.txt")
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
-        text = f'Something Bad occurred !!!\nCreate an issue here'
+        text = f"Something Bad occurred !!!\nCreate an issue here"
         issue_markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Create Issue", url=error_link)]])
-        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
         return e
-    
+
+
 async def extract_local_storage(query):
     try:
         url = query.message.text
@@ -380,14 +463,16 @@ async def extract_local_storage(query):
         }
         return storage;
         """
-        await txt.edit('Executing script...')
+        await txt.edit("Executing script...")
         local_storage = driver.execute_script(local_storage_script)
-        await txt.edit('Preparing files...')
-        file_write = open(f'localStorage-{chat_id}.txt', 'a+')
+        await txt.edit("Preparing files...")
+        file_write = open(f"localStorage-{chat_id}.txt", "a+")
         file_write.write(f"{local_storage}")
         file_write.close()
-        await txt.edit('Uploading...')
-        await message.reply_document(f'localStorage-{chat_id}.txt', caption="©@BugHunterBots", quote=True)
+        await txt.edit("Uploading...")
+        await message.reply_document(
+            f"localStorage-{chat_id}.txt", caption="©@BugHunterBots", quote=True
+        )
         await asyncio.sleep(1)
         os.remove(f"localStorage-{chat_id}.txt")
         await txt.delete()
@@ -395,9 +480,47 @@ async def extract_local_storage(query):
         os.remove(f"localStorage-{chat_id}.txt")
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"
-        text = f'Something Bad occurred !!!\nCreate an issue here'
+        text = f"Something Bad occurred !!!\nCreate an issue here"
         issue_markup = InlineKeyboardMarkup(
-            [[InlineKeyboardButton("Create Issue", url=error_link)]])
-        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
         return e
-        
+
+
+async def extract_metadata(query):
+    try:
+        message = query.message
+        txt = await message.reply_text("Scraping url ...", quote=True)
+        request, soup = await scrape(message.text)
+        title = soup.title.string.strip() if soup.title else None
+        description = soup.find("meta", attrs={"name": "description"})
+        description = description["content"].strip() if description else None
+        keywords = soup.find("meta", attrs={"name": "keywords"})
+        keywords = keywords["content"].strip() if keywords else None
+
+        metadata = {"title": title, "description": description, "keywords": keywords}
+
+        metadata_text = "\n".join(
+            [
+                f"**{key.capitalize()}:** {value}"
+                for key, value in metadata.items()
+                if value
+            ]
+        )
+
+        await message.reply_text(metadata_text)
+        await txt.delete()
+    except Exception as e:
+        error = f"ERROR: {(str(e))}"
+        error_link = f"{REPO}/issues/new?title={quote(error)}"
+        text = f"Something Bad occurred !!!\nCreate an issue here"
+        issue_markup = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
+        return e

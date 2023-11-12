@@ -6,7 +6,7 @@ This folder contains screenshots showcasing the features of the WebScrapper bot.
 
 ### Menu
 
-![Menu](menu.png)
+![Menu](new-menu.png)
 
 ### Video Scraping
 
