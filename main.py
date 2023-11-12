@@ -9,7 +9,7 @@ from pyrogram import Client, filters
 from dotenv import load_dotenv
 import os
 from pyrogram.types import Message
-from scraper import all_audio_scraping, all_images_scraping, all_links_scraping, all_paragraph_scraping, all_video_scraping, html_data_scraping, raw_data_scraping
+from scraper import all_audio_scraping, all_images_scraping, all_links_scraping, all_paragraph_scraping, all_pdf_scraping, all_video_scraping, html_data_scraping, raw_data_scraping
 from utils import OPTIONS, START_BUTTON, START_TEXT
 
 load_dotenv()
@@ -47,6 +47,8 @@ async def cb_data(bot, update):
         await all_audio_scraping(update)
     elif update.data == "cballvideo":
         await all_video_scraping(update)
+    elif update.data == "cballpdf":
+        await all_pdf_scraping(update)
     else:
         await update.message.edit_text(
             text=START_TEXT,
