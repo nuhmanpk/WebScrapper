@@ -1,8 +1,6 @@
 # WebScrapperRoBot
 Simple Web scrapper Bot to scrap webpages using Requests, html5lib and Beautifulsoup.
 
-![Screenshot](https://github.com/nuhmanpk/WebScrapper/blob/main/assets/new.png)
-
 # Setting Up a Project and Configuring Environment Variables
 
 To set up the project and configure environment variables, follow these steps:

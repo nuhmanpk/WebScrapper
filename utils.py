@@ -24,8 +24,10 @@ START_BUTTON = InlineKeyboardMarkup(
     ]
 )
 
+BACK_BUTTON = [[InlineKeyboardButton('Back', callback_data='cbclose')]]
+
 CLOSE_BUTTON = InlineKeyboardMarkup(
-    [[InlineKeyboardButton('Back', callback_data='cbclose')]]
+    BACK_BUTTON
 )
 
 OPTIONS = InlineKeyboardMarkup(
@@ -47,6 +49,13 @@ OPTIONS = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton('📚 All PDFs', callback_data='cballpdf')
-        ]
+        ],
+        [
+            InlineKeyboardButton('🍪 Cookies', callback_data='cbcookies'),
+            InlineKeyboardButton('📦 LocalStorage', callback_data='cblocalstorage')
+        ],
+        [
+            InlineKeyboardButton('📊 Metadata', callback_data='cbmetadata')
+        ]   
     ]
 )

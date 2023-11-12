@@ -3,6 +3,7 @@ import shutil
 import requests
 from utils import FINISHED_PROGRESS_STR, UN_FINISHED_PROGRESS_STR
 import os
+from selenium import webdriver
 
 async def progress_bar(current, total):
     percentage = current / total
@@ -79,3 +80,10 @@ async def download_pdf(base_url, pdf_url, idx, media_type):
     except Exception as e:
         print(f"Error downloading PDF from {pdf_url}: {e}")
         return None
+
+async def init_headless_browser(url):
+    options = webdriver.ChromeOptions()
+    options.headless = True
+    driver = webdriver.Chrome(options=options)
+    driver.get(url)
+    return driver
