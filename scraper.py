@@ -7,7 +7,7 @@ from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
 from bs4 import BeautifulSoup
 from urllib.parse import quote
 from utils import REPO
-from helpers import download_image, download_media, download_pdf, progress_bar
+from helpers import download_image, download_media, download_pdf, init_headless_browser, progress_bar
 
 async def scrape(url):
     try:
@@ -334,3 +334,70 @@ async def all_pdf_scraping(query):
             [[InlineKeyboardButton("Create Issue", url=error_link)]])
         await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
         return e
+
+
+async def extract_cookies(query):
+    try:
+        url = query.message.text
+        message = query.message
+        chat_id = message.chat.id
+        txt = await message.reply_text("Initiating chrome Driver...", quote=True)
+        driver = await init_headless_browser(url)
+
+        await txt.edit('Getting cookies...')
+        cookies = driver.get_cookies()
+        await txt.edit('Preparing files...')
+        file_write = open(f'Cookies-{chat_id}.txt', 'a+')
+        file_write.write(f"{cookies}")
+        file_write.close()
+        await txt.edit('Uploading...')
+        await message.reply_document(f"Cookies-{chat_id}.txt", caption="©@BugHunterBots", quote=True)
+        await asyncio.sleep(1) 
+        os.remove(f"Cookies-{chat_id}.txt")
+        await txt.delete()       
+    except Exception as e:
+        os.remove(f"Cookies-{chat_id}.txt")
+        error = f"ERROR: {(str(e))}"
+        error_link = f"{REPO}/issues/new?title={quote(error)}"
+        text = f'Something Bad occurred !!!\nCreate an issue here'
+        issue_markup = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Create Issue", url=error_link)]])
+        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+        return e
+    
+async def extract_local_storage(query):
+    try:
+        url = query.message.text
+        message = query.message
+        chat_id = message.chat.id
+        txt = await message.reply_text("Initiating chrome Driver...", quote=True)
+        driver = await init_headless_browser(url)
+        local_storage_script = """
+        var storage = {};
+        for (var i = 0; i < localStorage.length; i++) {
+            var key = localStorage.key(i);
+            storage[key] = localStorage.getItem(key);
+        }
+        return storage;
+        """
+        await txt.edit('Executing script...')
+        local_storage = driver.execute_script(local_storage_script)
+        await txt.edit('Preparing files...')
+        file_write = open(f'localStorage-{chat_id}.txt', 'a+')
+        file_write.write(f"{local_storage}")
+        file_write.close()
+        await txt.edit('Uploading...')
+        await message.reply_document(f'localStorage-{chat_id}.txt', caption="©@BugHunterBots", quote=True)
+        await asyncio.sleep(1)
+        os.remove(f"localStorage-{chat_id}.txt")
+        await txt.delete()
+    except Exception as e:
+        os.remove(f"localStorage-{chat_id}.txt")
+        error = f"ERROR: {(str(e))}"
+        error_link = f"{REPO}/issues/new?title={quote(error)}"
+        text = f'Something Bad occurred !!!\nCreate an issue here'
+        issue_markup = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Create Issue", url=error_link)]])
+        await message.reply_text(text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup)
+        return e
+        

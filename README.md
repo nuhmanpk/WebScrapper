@@ -1,8 +1,6 @@
 # WebScrapperRoBot
 Simple and powerful and versatile web scraping tool designed to simplify the process of extracting data from websites. It features a user-friendly menu-driven interface and supports a wide range of data extraction options, including raw HTML, HTML elements, paragraphs, links, audios, and videos
 
-![Screenshot](https://github.com/nuhmanpk/WebScrapper/blob/main/assets/new.png)
-
 ## Key Features:
 User-Friendly Menu-Driven Interface: Navigate easily through the bot's features using a simple and intuitive menu system.
 
