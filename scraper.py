@@ -14,6 +14,7 @@ from helpers import (
     init_headless_browser,
     progress_bar,
 )
+import imageio
 
 
 async def scrape(url):
@@ -434,6 +435,7 @@ async def extract_cookies(query):
         await asyncio.sleep(1)
         os.remove(f"Cookies-{chat_id}.txt")
         await txt.delete()
+        return
     except Exception as e:
         os.remove(f"Cookies-{chat_id}.txt")
         error = f"ERROR: {(str(e))}"
@@ -476,6 +478,7 @@ async def extract_local_storage(query):
         await asyncio.sleep(1)
         os.remove(f"localStorage-{chat_id}.txt")
         await txt.delete()
+        return
     except Exception as e:
         os.remove(f"localStorage-{chat_id}.txt")
         error = f"ERROR: {(str(e))}"
@@ -513,6 +516,112 @@ async def extract_metadata(query):
 
         await message.reply_text(metadata_text)
         await txt.delete()
+        return
+    except Exception as e:
+        error = f"ERROR: {(str(e))}"
+        error_link = f"{REPO}/issues/new?title={quote(error)}"
+        text = f"Something Bad occurred !!!\nCreate an issue here"
+        issue_markup = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
+        return e
+
+
+async def capture_screenshot(query):
+    try:
+        url = query.message.text
+        message = query.message
+        chat_id = message.chat.id
+        txt = await message.reply_text("Initiating chrome Driver...", quote=True)
+        driver = await init_headless_browser(url)
+
+        time.sleep(2)
+        await txt.edit("Taking screenshot...")
+        screenshot_path = f"{chat_id}-screenshot.png"
+        driver.save_screenshot(screenshot_path)
+        driver.quit()
+        await txt.edit("Uploading...")
+        await message.reply_photo(screenshot_path, caption="@BughunterBots")
+        await asyncio.sleep(1)
+        await txt.delete()
+        os.remove(screenshot_path)
+        return
+    except Exception as e:
+        error = f"ERROR: {(str(e))}"
+        error_link = f"{REPO}/issues/new?title={quote(error)}"
+        text = f"Something Bad occurred !!!\nCreate an issue here"
+        issue_markup = InlineKeyboardMarkup(
+            [[InlineKeyboardButton("Create Issue", url=error_link)]]
+        )
+        await message.reply_text(
+            text, disable_web_page_preview=True, quote=True, reply_markup=issue_markup
+        )
+        return e
+
+
+async def record_screen(query, video_length=30, fps=30):
+    try:
+        url = query.message.text
+        message = query.message
+        chat_id = message.chat.id
+        txt = await message.reply_text("Initiating chrome Driver...", quote=True)
+        driver = await init_headless_browser(url)
+
+        time.sleep(2)
+
+        initial_scroll_height = driver.execute_script(
+            "return document.body.scrollHeight;"
+        )
+
+        screenshot_dir = f"{chat_id}-screenshots"
+        os.makedirs(screenshot_dir, exist_ok=True)
+
+        total_frames = int(video_length)
+        await txt.edit("Capturing Screen...")
+        for step in range(total_frames):
+            fraction = step / total_frames
+            scroll_height = int(fraction * initial_scroll_height)
+
+            driver.execute_script(f"window.scrollTo(0, {scroll_height});")
+
+            time.sleep(1 / fps)
+
+            screenshot_path = os.path.join(screenshot_dir, f"screenshot_{step}.png")
+            driver.save_screenshot(screenshot_path)
+
+        driver.quit()
+        time.sleep(2)
+
+        await txt.edit("Converting to Video...")
+        frame_duration = 0.3
+        frames_per_screenshot = int(fps * frame_duration)
+        video_path = f"{chat_id}-screen_record.mp4"
+
+        with imageio.get_writer(video_path, fps=fps) as writer:
+            for step in range(total_frames):
+                screenshot_path = os.path.join(screenshot_dir, f"screenshot_{step}.png")
+                image = imageio.imread(screenshot_path)
+
+                for _ in range(frames_per_screenshot):
+                    writer.append_data(image)
+
+        for step in range(total_frames):
+            screenshot_path = os.path.join(screenshot_dir, f"screenshot_{step}.png")
+            os.remove(screenshot_path)
+
+        os.rmdir(screenshot_dir)
+
+        time.sleep(2)
+        await txt.edit("Uploading...")
+        await message.reply_video(video_path, caption="@BughunterBots")
+
+        await asyncio.sleep(1)
+        os.remove(video_path)
+        await txt.delete()
+        return
     except Exception as e:
         error = f"ERROR: {(str(e))}"
         error_link = f"{REPO}/issues/new?title={quote(error)}"

@@ -14,8 +14,13 @@ Scraping Options:
 9. **Cookies**
 10. **LocalStorage**
 11. **Metadata**
+12. **Web ScreenShot**
+13. **Web Recording**
+14. **Got Something Interseting? Add [here](https://github.com/nuhmanpk/WebScrapper/fork)**
 
-![Menu](./demos/new-menu.png)
+![Menu](./demos/updated-new-menu.png)
+
+[![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nuhmanpk/WebScrapper/blob/main/WebScrapper.ipynb)
 
 ## Key Features:
 User-Friendly Menu-Driven Interface: Navigate easily through the bot's features using a simple and intuitive menu system.
@@ -78,8 +83,6 @@ Execute the project using the appropriate command (e.g., python my_project.py) a
 
 If you deploy your project on a cloud server, consider using a secrets manager like AWS Secrets Manager, Google Secret Manager, or a similar service. This will help you securely store your configurations in a production environment.
 
-<Br><b>Mark your Star ⭐⭐<b>
-
 ## What is Web Scraping ?
   Web scraping, web harvesting, or web data extraction is data scraping used for extracting data from websites. The web scraping software may directly access the World Wide Web using the Hypertext Transfer Protocol or a web browser.
 ## Is web scraping Legal?
@@ -112,6 +115,8 @@ Never scrape personal information: Scraping personal information, such as names,
 Avoid scraping sensitive data: Avoid scraping data that could be used to harm individuals or organizations, such as financial information, medical records, or trade secrets.
 
 Be cautious about scraping social media: Social media platforms have their own terms of service that govern how data can be scraped. Be sure to comply with these terms of service when scraping social media data.
+
 ## Contributors
 
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=bughunter0/WebScrapperRoBot)
+<Br><Br><b>Mark your Star ⭐⭐<b>
