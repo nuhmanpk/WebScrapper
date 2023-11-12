@@ -38,7 +38,8 @@ OPTIONS = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton('🔗 All Links', callback_data='cballlinks'),
-            InlineKeyboardButton('📃 All Paragraphs', callback_data='cballparagraphs')
+            InlineKeyboardButton('📃 All Paragraphs'
+                                , callback_data='cballparagraphs')
         ],
         [
             InlineKeyboardButton('🌄 All Images', callback_data='cballimages')
@@ -52,10 +53,11 @@ OPTIONS = InlineKeyboardMarkup(
         ],
         [
             InlineKeyboardButton('🍪 Cookies', callback_data='cbcookies'),
-            InlineKeyboardButton('📦 LocalStorage', callback_data='cblocalstorage')
+            InlineKeyboardButton(
+                '📦 LocalStorage', callback_data='cblocalstorage')
         ],
         [
             InlineKeyboardButton('📊 Metadata', callback_data='cbmetadata')
-        ]   
+        ]
     ]
 )
