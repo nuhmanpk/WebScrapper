@@ -16,7 +16,7 @@ Scraping Options:
 11. **Metadata**
 12. **Web ScreenShot**
 13. **Web Recording**
-14. **Got Something Interseting? Add [here](https://github.com/nuhmanpk/WebScrapper/fork)**
+14. **Got Something New? Add [here](https://github.com/nuhmanpk/WebScrapper/fork)**
 
 ![Menu](./demos/updated-new-menu.png)
 
