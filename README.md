@@ -4,19 +4,19 @@ Simple and powerful and versatile web scraping tool designed to simplify the pro
 Scraping Options:
 
 1. **Full Content**
-2. **HTML Data**
-3. **All Links**
-4. **All Paragraphs**
-5. **All Images**
-6. **All Audio**
-7. **All Video**
-8. **All PDFs**
-9. **Cookies**
-10. **LocalStorage**
-11. **Metadata**
-12. **Web ScreenShot**
-13. **Web Recording**
-14. **Got Something New? Add [here](https://github.com/nuhmanpk/WebScrapper/fork)**
+1. **HTML Data**
+1. **All Links**
+1. **All Paragraphs**
+1. **All Images**
+1. **All Audio**
+1. **All Video**
+1. **All PDFs**
+1. **Cookies**
+1. **LocalStorage**
+1. **Metadata**
+1. **Web ScreenShot**
+1. **Web Recording**
+1. **Got Something New? Add [here](https://github.com/nuhmanpk/WebScrapper/fork)**
 
 ![Menu](./demos/updated-new-menu.png)
 
