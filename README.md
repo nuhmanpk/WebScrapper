@@ -14,9 +14,11 @@ Scraping Options:
 1. **Cookies**
 1. **LocalStorage**
 1. **Metadata**
-1. **Web ScreenShot**
-1. **Web Recording**
+1. **Web ScreenShot\***
+1. **Web Recording\***
 1. **Got Something New? Add [here](https://github.com/nuhmanpk/WebScrapper/fork)**
+
+*These features are still under development 
 
 ![Menu](./demos/updated-new-menu.png)
 
@@ -119,4 +121,9 @@ Be cautious about scraping social media: Social media platforms have their own t
 ## Contributors
 
 ![GitHub Contributors Image](https://contrib.rocks/image?repo=bughunter0/WebScrapperRoBot)
-<Br><Br><b>Mark your Star ⭐⭐<b>
+
+## Support
+
+Show your support [here](https://github.com/sponsors/nuhmanpk)
+
+<Br><b>Mark your Star [⭐⭐](https://github.com/nuhmanpk/WebScrapper/stargazers)<b>
