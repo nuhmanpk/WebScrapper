@@ -24,6 +24,7 @@ from scraper import (
     capture_screenshot,
     record_screen
 )
+from crawler import crawl_web
 from utils import OPTIONS, START_BUTTON, START_TEXT
 
 load_dotenv()
@@ -31,6 +32,8 @@ load_dotenv()
 bot_token = os.getenv("BOT_TOKEN")
 api_id = os.getenv("API_ID")
 api_hash = os.getenv("API_HASH")
+
+CRAWL_LOG_CHANNEL = os.getenv('CRAWL_LOG_CHANNEL')
 
 if bot_token is None or api_id is None or api_hash is None:
     raise ValueError(
@@ -77,6 +80,11 @@ async def cb_data(bot, update):
         await capture_screenshot(update)
     elif update.data == "cbscreenrecord":
         await record_screen(update)
+    elif update.data == 'cbcrawl':
+        if CRAWL_LOG_CHANNEL:
+            await crawl_web(bot,update)
+        else:
+            await update.message.reply('You must provide a Log Channel ID')
 
     else:
         await update.message.edit_text(

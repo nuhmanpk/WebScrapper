@@ -62,6 +62,9 @@ OPTIONS = InlineKeyboardMarkup(
         [
             InlineKeyboardButton('📷 Screenshot', callback_data='cbscreenshot'),
             InlineKeyboardButton('🎬 Screen Record', callback_data='cbscreenrecord')
-        ]
+        ],
+        [
+            InlineKeyboardButton('🕷️ Crawl Complete Web', callback_data='cbcrawl')
+        ],
     ]
 )
