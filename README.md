@@ -18,6 +18,7 @@ Scraping Options:
 1. **Metadata**
 1. **Web ScreenShot\***
 1. **Web Recording\***
+1. **Web Crawler**
 1. **Got Something New? Add [here](https://github.com/nuhmanpk/WebScrapper/fork)**
 
 *These features are still under development 
