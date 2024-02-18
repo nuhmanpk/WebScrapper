@@ -4,6 +4,7 @@ import requests
 import os
 import shutil
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton
+from pyrogram import enums
 from bs4 import BeautifulSoup
 from urllib.parse import quote
 from utils import REPO
@@ -146,14 +147,11 @@ async def all_paragraph_scraping(query):
         )
         return e
 
-async def progress_callback(current, total):
-    print("🎁 ~ scraper.py:148 -> current: ",  current)
-    print("🛵 ~ scraper.py:148 -> total: ",  total)
 
-
-async def all_images_scraping(query):
+async def all_images_scraping(bot,query):
     try:
         message = query.message
+        chat_id = message.chat.id
         txt = await message.reply_text("Scraping url ...", quote=True)
         request, soup = await scrape(message.text)
         image_links = []
@@ -188,6 +186,7 @@ async def all_images_scraping(query):
             zip_filename = f"{message.chat.id}-images.zip"
             shutil.make_archive(folder_name, "zip", folder_name)
             c_time = time.time()
+            await bot.send_chat_action(chat_id, enums.ChatAction.UPLOAD_PHOTO)
             await message.reply_document(
                 open(zip_filename, "rb"),
                 caption="Here are the images! \n @BUghunterBots",
@@ -216,9 +215,10 @@ async def all_images_scraping(query):
         return e
 
 
-async def all_audio_scraping(query):
+async def all_audio_scraping(bot,query):
     try:
         message = query.message
+        chat_id = message.chat.id
         txt = await message.reply_text("Scraping url ...", quote=True)
         request, soup = await scrape(message.text)
         audio_links = [link["src"] for link in soup.find_all("audio")]
@@ -248,6 +248,7 @@ async def all_audio_scraping(query):
             zip_filename = f"{message.chat.id}-audios.zip"
             shutil.make_archive(folder_name, "zip", folder_name)
             c_time = time.time()
+            await bot.send_chat_action(chat_id, enums.ChatAction.UPLOAD_AUDIO)
             await message.reply_document(
                 open(zip_filename, "rb"),
                 caption="Here are the images! \n @BughunterBots",
@@ -278,9 +279,10 @@ async def all_audio_scraping(query):
         return e
 
 
-async def all_video_scraping(query):
+async def all_video_scraping(bot,query):
     try:
         message = query.message
+        chat_id = message.chat.id
         txt = await message.reply_text("Scraping url ...", quote=True)
         request, soup = await scrape(message.text)
 
@@ -324,6 +326,7 @@ async def all_video_scraping(query):
             shutil.make_archive(folder_name, "zip", folder_name)
 
             c_time = time.time()
+            await bot.send_chat_action(chat_id, enums.ChatAction.UPLOAD_VIDEO)
             await message.reply_document(
                 open(zip_filename, "rb"),
                 caption="Here are the videos! \n @BughunterBots",

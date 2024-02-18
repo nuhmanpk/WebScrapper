@@ -63,11 +63,11 @@ async def cb_data(bot:Client, update):
     elif update.data == "cballparagraphs":
         await all_paragraph_scraping(update)
     elif update.data == "cballimages":
-        await all_images_scraping(update)
+        await all_images_scraping(bot,update)
     elif update.data == "cballaudio":
-        await all_audio_scraping(update)
+        await all_audio_scraping(bot,update)
     elif update.data == "cballvideo":
-        await all_video_scraping(update)
+        await all_video_scraping(bot,update)
     elif update.data == "cballpdf":
         await all_pdf_scraping(update)
     elif update.data == "cbmetadata":
