@@ -23,7 +23,12 @@ Scraping Options:
 
 *These features are still under development 
 
+
 ![Menu](./demos/updated-new-menu.png)
+
+![Video Scraping](./demos/video-scraping.png)
+
+## Run Bot in Google Colab for free
 
 [![Open In Colab](https://colab.research.google.com/assets/colab-badge.svg)](https://colab.research.google.com/github/nuhmanpk/WebScrapper/blob/main/WebScrapper.ipynb)
 
