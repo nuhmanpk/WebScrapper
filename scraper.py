@@ -307,7 +307,7 @@ async def all_video_scraping(query):
                     with open(os.path.join(folder_name, local_filename), "wb") as file:
                         file.write(video_data)
 
-                await status.edit(f"Downloaded {idx + 1}/{len(video_links)}")
+                # await status.edit(f"Downloaded {idx + 1}/{len(video_links)}")
                 time.sleep(0.3)
 
             await status.edit("Uploading ....")
