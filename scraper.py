@@ -13,8 +13,10 @@ from helpers import (
     download_pdf,
     init_headless_browser,
     progress_bar,
+    progress_for_pyrogram
 )
 import imageio
+from tqdm import tqdm
 
 
 async def scrape(url):
@@ -144,6 +146,10 @@ async def all_paragraph_scraping(query):
         )
         return e
 
+async def progress_callback(current, total):
+    print("🎁 ~ scraper.py:148 -> current: ",  current)
+    print("🛵 ~ scraper.py:148 -> total: ",  total)
+
 
 async def all_images_scraping(query):
     try:
@@ -181,10 +187,12 @@ async def all_images_scraping(query):
             await status.edit("Uploading ....")
             zip_filename = f"{message.chat.id}-images.zip"
             shutil.make_archive(folder_name, "zip", folder_name)
-
+            c_time = time.time()
             await message.reply_document(
                 open(zip_filename, "rb"),
                 caption="Here are the images! \n @BUghunterBots",
+                progress=progress_for_pyrogram,
+                progress_args=('Uploading',status,c_time)  
             )
             await status.delete()
             await text.delete()
@@ -239,10 +247,12 @@ async def all_audio_scraping(query):
             await status.edit("Uploading ....")
             zip_filename = f"{message.chat.id}-audios.zip"
             shutil.make_archive(folder_name, "zip", folder_name)
-
+            c_time = time.time()
             await message.reply_document(
                 open(zip_filename, "rb"),
-                caption="Here are the images! \n @BUghunterBots",
+                caption="Here are the images! \n @BughunterBots",
+                progress=progress_for_pyrogram,
+                progress_args=('Uploading',status,c_time)  
             )
             await status.delete()
             await txt.delete()
@@ -307,16 +317,18 @@ async def all_video_scraping(query):
                     with open(os.path.join(folder_name, local_filename), "wb") as file:
                         file.write(video_data)
 
-                # await status.edit(f"Downloaded {idx + 1}/{len(video_links)}")
                 time.sleep(0.3)
 
             await status.edit("Uploading ....")
             zip_filename = f"{folder_name}.zip"
             shutil.make_archive(folder_name, "zip", folder_name)
 
+            c_time = time.time()
             await message.reply_document(
                 open(zip_filename, "rb"),
                 caption="Here are the videos! \n @BughunterBots",
+                progress=progress_for_pyrogram,
+                progress_args=('Uploading',status,c_time)  
             )
             # await message.reply_video(local_filename)
             await status.delete()
@@ -387,8 +399,11 @@ async def all_pdf_scraping(query):
             zip_filename = f"{folder_name}.zip"
             shutil.make_archive(folder_name, "zip", folder_name)
 
+            c_time = time.time()
             await message.reply_document(
-                open(zip_filename, "rb"), caption="Here are the Pdfs! \n @BughunterBots"
+                open(zip_filename, "rb"), caption="Here are the Pdfs! \n @BughunterBots",
+                progress=progress_for_pyrogram,
+                progress_args=('Uploading',status,c_time)  
             )
             await status.delete()
             await txt.delete()

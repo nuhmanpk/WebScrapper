@@ -53,7 +53,7 @@ async def start(_, message: Message):
 
 
 @app.on_callback_query()
-async def cb_data(bot, update):
+async def cb_data(bot:Client, update):
     if update.data == "cbrdata":
         await raw_data_scraping(update)
     elif update.data == "cbhtmldata":
@@ -80,6 +80,8 @@ async def cb_data(bot, update):
         await capture_screenshot(update)
     elif update.data == "cbscreenrecord":
         await record_screen(update)
+    elif update.data == "cdstoptrasmission":
+        bot.stop_transmission()
     elif update.data == 'cbcrawl':
         if CRAWL_LOG_CHANNEL:
             await crawl_web(bot,update)
