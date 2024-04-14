@@ -1,3 +1,5 @@
+# /usr/bin/nuhmanpk/bughunter0 
+
 import asyncio
 import logging
 from scraper import scrape

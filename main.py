@@ -1,8 +1,10 @@
 # © BugHunterCodeLabs ™
 # © bughunter0
 # © Nuhman Pk
-# 2021 - 2023
+# 2021 - 2024
 # Copyright - https://en.m.wikipedia.org/wiki/Fair_use
+
+# /usr/bin/nuhmanpk/bughunter0 
 
 import os
 from pyrogram import Client, filters

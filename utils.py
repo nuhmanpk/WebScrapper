@@ -1,3 +1,5 @@
+# /usr/bin/nuhmanpk/bughunter0 
+
 from pyrogram.types import InlineKeyboardMarkup, InlineKeyboardButton, Message
 
 REPO = 'https://github.com/nuhmanpk/WebScrapper/'
