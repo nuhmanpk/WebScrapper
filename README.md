@@ -1,6 +1,8 @@
 # WebScrapperRoBot
 Simple , powerful and versatile web scraping tool designed to simplify the process of extracting data from websites. It features a user-friendly menu-driven interface and supports a wide range of data extraction options, including raw HTML, HTML elements, paragraphs, links, audios, and videos
 
+[![Visits](https://api.visitorbadge.io/api/visitors?path=[https://github.com/nuhmanpk/webscrapper](https://github.com/nuhmanpk/portfolio)&countColor=%23007EC6&label=Visits&style=flat-square&token=YOUR_API_TOKEN)](https://github.com/nuhmanpk/WebScrapper)
+
 **_NOTE:_** New Patch supports web crawling.
 
 Scraping Options:
